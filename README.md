@@ -1,37 +1,56 @@
 # 7zip to CHD
 
-Convert your .7z game archives to CHD format with ease!
+Convert game archives and disc images to CHD format with ease!
 
 ## Overview
 
-This Python script automates the process of extracting .7z archives into separate directories and converting the extracted files to .chd format using the `tochd` command-line tool. It also organizes all generated .chd files into a single directory for convenient access.
+This tool automates converting `.7z` game archives and loose disc images (`.iso`, `.cue`/`.bin`, `.gdi`, `.img`) into `.chd` format using `chdman`. It runs inside Docker, making it fully portable across any system — no dependencies to install, no setup beyond Docker itself.
+
+## Why Docker?
+
+Docker is the primary way to run this tool. Since this project gets used across frequently-switching Linux distros (Bazzite, SteamOS, NixOS, Silverblue, etc.) and macOS, a containerized approach means it works identically everywhere without reinstalling dependencies or dealing with package manager differences.
+
+Everything runs in the container - Python, `chdman`, `p7zip` - so your host system stays clean.
 
 ## Features
 
-- Extracts .7z archives into individual directories
-- Converts extracted files to .chd format
-- Organizes .chd files into a central directory
+- Converts `.7z` archives: extracts them, converts disc images inside, then cleans up
+- Converts loose disc images directly: `.iso`, `.cue`/`.bin`, `.gdi`, `.img`
+- `.cue` takes priority over `.iso` when both exist for the same title
+- Prints conversion progress to the console
+- Output `.chd` files land in a single output directory
 
 ## Requirements
 
-- [tochd](https://github.com/thingsiplay/tochd): A command-line tool for converting extracted files to .chd format.
-- [py7zr](https://pypi.org/project/py7zr/): A Python library for handling .7z archives.
+- [Docker](https://docs.docker.com/get-docker/)
 
-## Benefits
+That's it.
 
-- Saves disk space by compressing game files
-- Improves compatibility with popular emulators
-- Streamlines the process of converting game archives
+## Setup
+
+Clone the repo and build the image:
+
+```bash
+git clone https://github.com/vityobug/7z-to-chd.git
+cd 7z-to-chd
+docker build -t 7ziso-to-chd .
+```
 
 ## Usage
 
-Simply run the script and follow the prompts to specify the path containing the .7z archives and the destination path for the extracted files. The script will handle the rest, making it easy to convert multiple game archives quickly and efficiently.
+```bash
+docker run --rm \
+  -v /path/to/your/games:/input \
+  -v /path/to/output:/output \
+  7ziso-to-chd
+```
+
+Replace `/path/to/your/games` with the folder containing your `.7z` archives or loose disc images, and `/path/to/output` with where you want the `.chd` files saved.
 
 ## Compatibility
 
-Tested with games for Dreamcast and PS1, this script is versatile and can be adapted for use with other platforms and file types.
+Tested with PS1, PS2, and Dreamcast games. Works with any platform supported by `chdman`.
 
 ## Note
 
-Feel free to redistribute and modify this script to suit your needs. Happy gaming!
-
+Feel free to redistribute and modify this to suit your needs. Happy gaming!
