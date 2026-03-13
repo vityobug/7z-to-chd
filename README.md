@@ -8,7 +8,8 @@ This tool automates converting `.7z` game archives and loose disc images (`.iso`
 
 ## Why Docker?
 
-Docker is the primary way to run this tool. Since this project gets used across frequently-switching Linux distros (Bazzite, SteamOS, NixOS, Silverblue, etc.) and macOS, a containerized approach means it works identically everywhere without reinstalling dependencies or dealing with package manager differences.
+Docker is the primary way to run this tool. Since this project gets used across frequently-switching Linux distros and macOS, a containerized approach means it works identically everywhere without reinstalling dependencies or dealing with package manager differences.
+Sorry Windows guys, you're on your own.
 
 Everything runs in the container - Python, `chdman`, `p7zip` - so your host system stays clean.
 
